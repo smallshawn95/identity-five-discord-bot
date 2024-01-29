@@ -1,8 +1,12 @@
-import os, discord, asyncio
+import os
+import asyncio
+import discord
 from dotenv import load_dotenv
 from discord.ext import commands
 
+# 載入 .env 檔案中的變數作為環境變數
 load_dotenv()
+
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix = commands.when_mentioned_or("!"), intents = intents)
 
