@@ -1,6 +1,31 @@
+import json
 import discord
 import datetime
+from typing import Optional
+from discord import app_commands
 from discord.ext import commands, tasks
+
+class RankingTimeNotification(commands.GroupCog, name = "排位時間通知"):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
+
+    @app_commands.command(name = "傳統排位", description = "設定傳統排位通知頻道(未選擇頻道為刪除設定)")
+    @app_commands.describe(channel = "選擇一個文字頻道")
+    async def classic_ranking(self, interaction: discord.Interaction, channel: Optional[discord.TextChannel] = None):
+        with open("./database/notification.json", "r", encoding = "utf8") as file:
+            notification_data = json.load(file)
+        with open("./database/notification.json", "w", encoding = "utf8") as file:
+            json.dump(notification_data, file, indent = 4, ensure_ascii = False)
+        await interaction.response.send_message()
+
+    @app_commands.command(name = "五人排位", description = "設定五人排位通知頻道(未選擇頻道為刪除設定)")
+    @app_commands.describe(channel = "選擇一個文字頻道")
+    async def five_player_ranking(self, interaction: discord.Interaction, channel: Optional[discord.TextChannel] = None):
+        with open("./database/notification.json", "r", encoding = "utf8") as file:
+            notification_data = json.load(file)
+        with open("./database/notification.json", "w", encoding = "utf8") as file:
+            json.dump(notification_data, file, indent = 4, ensure_ascii = False)
+        await interaction.response.send_message()
 
 tz = datetime.timezone(datetime.timedelta(hours = 8))
 # 傳統排位（伺服器時間 UTC+8）：每日 04:00-06:00、12:00-14:00、18:00-22:00（五階以上 19:00-21:00）。
@@ -56,4 +81,5 @@ class RankingTimeNotificationTask(commands.Cog):
             pass
 
 async def setup(bot: commands.Bot):
+    await bot.add_cog(RankingTimeNotification(bot))
     await bot.add_cog(RankingTimeNotificationTask(bot))
