@@ -10,7 +10,7 @@ class Main(commands.Cog):
     async def ping_prefix(self, ctx: commands.Context):
         await ctx.send(f"{round(self.bot.latency * 1000)}(ms)")
 
-    @app_commands.command(name = "ping")
+    @app_commands.command(name = "ping", description = "測試機器人")
     async def ping_slash(self, interaction: discord.Interaction):
         await interaction.response.send_message(f"{round(self.bot.latency * 1000)}(ms)")
 
